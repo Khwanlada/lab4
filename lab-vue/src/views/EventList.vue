@@ -11,6 +11,7 @@
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/services/EventService.js'
+import {watchEffect} from '@vue/runtime-core'
 // import axios from 'axios'
 export default {
   name: 'EventList',
@@ -29,13 +30,16 @@ export default {
     }
   },
   created() {
-    EventService.getEvents(5, this.page)
+    watchEffect(() => {
+      EventService.getEvents(5, this.page)
       .then((response) => {
         this.events = response.data
       })
       .catch((error) => {
         console.log(error)
       })
+    })
+    
   }
 }
 </script>
